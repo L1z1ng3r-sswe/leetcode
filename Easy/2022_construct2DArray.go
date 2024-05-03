@@ -1,15 +1,3 @@
-package main
-
-import "fmt"
-
-func main() {
-	var m = 2
-	var n = 1
-	var original = []int{1}
-
-	fmt.Println(construct2DArray(original, m, n))
-}
-
 func construct2DArray(original []int, m int, n int) [][]int {
 	var res [][]int //returning array
 	var row []int   //row - item of res
