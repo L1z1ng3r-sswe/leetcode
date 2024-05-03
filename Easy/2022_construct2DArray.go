@@ -1,22 +1,24 @@
+//m - number of rows
+// n - number of columns
 func construct2DArray(original []int, m int, n int) [][]int {
-	var res [][]int //returning array
-	var row []int   //row - item of res
-	var t int       //counter that is not longer than n - colum
+	var result [][]int
+	var row []int
+	var columnsNumber int // max value is the number of columns (n)
 
 	for _, num := range original {
 		row = append(row, num)
-		t++
+		columnsNumber++
 
-		if t == n {
-			res = append(res, row)
-			t = 0
+		if columnsNumber == n {
+			result = append(result, row)
 			row = []int{}
+			columnsNumber = 0
 		}
 	}
 
-	if len(res) != m || t != 0 { //comparing the length of res to
-		res = [][]int{}
+	if columnsNumber != 0 || m != len(result) {
+		result = [][]int{}
 	}
 
-	return res
+	return result
 }
