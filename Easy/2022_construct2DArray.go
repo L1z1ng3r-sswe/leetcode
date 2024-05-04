@@ -22,3 +22,17 @@ func construct2DArray(original []int, m int, n int) [][]int {
 
 	return result
 }
+
+func construct2DArray(original []int, columns int, rowlength int) [][]int {
+	if len(original) != columns*rowlength {
+		return [][]int{}
+	}
+
+	var res = make([][]int, columns)
+	for i := range res {
+		res[i] = make([]int, rowlength)
+		copy(res[i], original[i*rowlength:(i+1)*rowlength])
+	}
+
+	return res
+} 
