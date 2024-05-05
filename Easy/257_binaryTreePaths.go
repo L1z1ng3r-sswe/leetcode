@@ -1,32 +1,33 @@
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
 
-func binaryTreePaths(root *TreeNode) []string {
-	var res []string
-
-	if root == nil {
-		return res
+ 
+	type TreeNode struct {
+		Val   int
+		Left  *TreeNode
+		Right *TreeNode
 	}
 
-	leaf(root, "", &res)
-	return res
-}
+	func binaryTreePaths(root *TreeNode) []string {
+		if root == nil {
+			return []string{}
+		}
 
-func leaf(node *TreeNode, str string, res *[]string) {
-	str += strconv.Itoa(node.Val)
-	if node.Left == nil && node.Right == nil {
-		*res = append(*res, str)
-		return
+		var result []string
+		delve(root, "", &result)
+		return result
 	}
 
-	if node.Left != nil {
-		leaf(node.Left, str+"->", res)
-	}
+	func delve(node *TreeNode, previous string, result *[]string) {
+		previous += strconv.Itoa(node.Val)
+		if node.Right == nil && node.Left == nil {
+			*result = append(*result, previous)
+			return
+		}
 
-	if node.Right != nil {
-		leaf(node.Right, str+"->", res)
+		if node.Left != nil {
+			delve(node.Left, previous+"->", result)
+		}
+
+		if node.Right != nil {
+			delve(node.Right, previous+"->", result)
+		}
 	}
-}
