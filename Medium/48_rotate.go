@@ -1,22 +1,6 @@
-package main
-
-import "fmt"
-
-func main() {
-	matrix := [][]int{
-		{1, 2, 3},
-		{4, 5, 6},
-		{7, 8, 9},
-	}
-	rotate(matrix)
-
-	for _, row := range matrix {
-		fmt.Println(row)
-	}
-}
-
 func rotate(matrix [][]int) {
 	l, r := 0, len(matrix)-1
+
 	for i := 0; i < len(matrix)/2; i++ {
 		for j := 0; j < r-l; j++ {
 			t, b := l, r
