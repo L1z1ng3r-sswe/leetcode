@@ -8,7 +8,7 @@ func subsetsWithDup(nums []int) [][]int {
 		res = append(res, append([]int(nil), currNums...))
 
 		for i := start; i < len(nums); i++ {
-			if i > 0 && nums[i] == nums[i-1] {
+			if i > start && nums[i] == nums[i-1] {
 				continue
 			}
 
