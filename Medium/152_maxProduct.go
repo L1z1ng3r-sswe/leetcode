@@ -1,47 +1,20 @@
 func maxProduct(nums []int) int {
-	result := biggest(nums)
-	maxRes, minRes := 1, 1
-
-	for _, num := range nums {
-		if num == 0 {
-			maxRes, minRes = 1, 1
-			continue
-		}
-
-		tmp := maxRes * num
-		maxRes = biggest([]int{maxRes * num, minRes * num, num})
-		minRes = smallest([]int{tmp, minRes * num, num})
-
-		result = max(result, maxRes)
+	if len(nums) == 0 {
+		return 0
 	}
 
-	return result
-}
-
-func biggest(nums []int) int {
+	maxProduct, minProduct := nums[0], nums[0]
 	result := nums[0]
 
-	for i := 0; i < len(nums)-1; i++ {
-		result = max(result, nums[i+1])
-	}
-
-	return result
-}
-
-func max(n1, n2 int) int {
-	if n1 > n2 {
-		return n1
-	}
-	return n2
-}
-
-func smallest(nums []int) int {
-	result := nums[0]
-
-	for i := 0; i < len(nums)-1; i++ {
-		if result > nums[i+1] {
-			result = nums[i+1]
+	for i := 1; i < len(nums); i++ {
+		if nums[i] < 0 {
+			maxProduct, minProduct = minProduct, maxProduct
 		}
+
+		maxProduct = int(math.Max(float64(nums[i]), float64(maxProduct*nums[i])))
+		minProduct = int(math.Min(float64(nums[i]), float64(minProduct*nums[i])))
+
+		result = int(math.Max(float64(result), float64(maxProduct)))
 	}
 
 	return result
