@@ -1,22 +1,21 @@
 func maxProduct(nums []int) int {
-
-	res := nums[0]
-	high := nums[0]
-	low := nums[0]
-
-	for _, num := range nums[1:] {
-
-		if num == 0 {
-			high, low = 1, 1
-			continue
-		}
-
-		tempHigh := high
-		high = max(num, max(low*num, high*num))
-		low = min(num, min(low*num, tempHigh))
-
-		res = max(res, high)
+	if len(nums) == 0 {
+		return 0
 	}
 
-	return res
+	maxProduct, minProduct := nums[0], nums[0]
+	result := nums[0]
+
+	for i := 1; i < len(nums); i++ {
+		if nums[i] < 0 {
+			maxProduct, minProduct = minProduct, maxProduct
+		}
+
+		maxProduct = int(math.Max(float64(nums[i]), float64(maxProduct*nums[i])))
+		minProduct = int(math.Min(float64(nums[i]), float64(minProduct*nums[i])))
+
+		result = int(math.Max(float64(result), float64(maxProduct)))
+	}
+
+	return result
 }
