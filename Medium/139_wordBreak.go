@@ -20,5 +20,5 @@ func wordBreak(s string, wordDict []string) bool {
 
 // N = len(s)
 // M = len(wordDict)
-// time = O(N**N)
+// time = O(N*N)
 // space = O(M+N)
