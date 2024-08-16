@@ -1,26 +1,30 @@
 func minSubArrayLen(target int, nums []int) int {
-	result, total := math.MaxInt64, 0
+	var res = math.MaxInt64
+	curr := 0
 	left := 0
 
-	for right, num := range nums {
-		total += num
+	for right := 0; right < len(nums); right++ {
+		curr += nums[right]
 
-		for total >= target {
-			result = min(result, right-left+1)
-			total -= nums[left]
+		for curr >= target {
+			res = min(res, right-left+1)
+			curr -= nums[left]
 			left++
 		}
 	}
 
-	if result == math.MaxInt64 {
+	if res == math.MaxInt64 {
 		return 0
 	}
-	return result
+	return res
 }
 
-func min(n1, n2 int) int {
-	if n1 < n2 {
-		return n1
+func min(a, b int) int {
+	if a < b {
+		return a
 	}
-	return n2
+	return b
 }
+
+// time: O(N^2)
+// space: O(1)
