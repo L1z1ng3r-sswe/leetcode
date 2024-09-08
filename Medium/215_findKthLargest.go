@@ -1,42 +1,38 @@
-type MaxHeap []int
-
-func (h MaxHeap) Less(i, j int) bool {
-	return h[i] > h[j]
-}
-
-func (h MaxHeap) Len() int {
-	return len(h)
-}
-
-func (h MaxHeap) Swap(i, j int) {
-	h[i], h[j] = h[j], h[i]
-}
-
-func (h *MaxHeap) Push(x interface{}) {
-	*h = append(*h, x.(int))
-}
-
-func (h *MaxHeap) Pop() interface{} {
-	old := *h
-	n := len(old)
-	lastElem := old[n-1]
-	*h = old[:n-1]
-	return lastElem
-}
-
 func findKthLargest(nums []int, k int) int {
-	var maxHeap = &MaxHeap{}
-
-	for _, num := range nums {
-		heap.Push(maxHeap, num)
-	}
-
-	for i := k; i > 1; i-- {
-		heap.Pop(maxHeap)
-	}
-
-	return heap.Pop(maxHeap).(int)
+	return quickSelect(nums, 0, len(nums)-1, len(nums)-k)
 }
 
-// space: O(N)
-// time: O(N)
+func quickSelect(nums []int, left, right, k int) int {
+	if left == right {
+		return nums[left]
+	}
+
+	pivotIndex := left + rand.Intn(right-left+1)
+	pivotIndex = partition(nums, left, right, pivotIndex)
+
+	if pivotIndex == k {
+		return nums[pivotIndex]
+	} else if pivotIndex > k {
+		return quickSelect(nums, left, pivotIndex-1, k)
+	}
+	return quickSelect(nums, pivotIndex+1, right, k)
+}
+
+func partition(nums []int, left, right, pivotIndex int) int {
+	pivotValue := nums[pivotIndex]
+	nums[right], nums[pivotIndex] = nums[pivotIndex], nums[right]
+	currBigger := left
+
+	for i := left; i < right; i++ {
+		if nums[i] < pivotValue {
+			nums[currBigger], nums[i] = nums[i], nums[currBigger]
+			currBigger++
+		}
+	}
+
+	nums[currBigger], nums[right] = nums[right], nums[currBigger]
+	return currBigger
+}
+
+// space: O(~N)
+// time: O(1)
