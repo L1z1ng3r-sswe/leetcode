@@ -57,5 +57,5 @@ func (h *MaxHeap) Pop() interface{} {
 // fill & check the heap
 // combining result
 
-// time: O(n)
+// time: O(nlogn)
 // space: O(1) // not more than 26 elements

@@ -5,27 +5,27 @@ func frequencySort(s string) string {
 	}
 
 	var maxHeap = &MaxHeap{}
-	for elem, freq := range freqMap {
-		heap.Push(maxHeap, Elem{elem, freq})
+	for char, freq := range freqMap {
+		heap.Push(maxHeap, Item{char, freq})
 	}
 
 	var res string
 	for maxHeap.Len() != 0 {
-		elem := heap.Pop(maxHeap).(Elem)
-		for i := 0; i < elem.freq; i++ {
-			res += string(elem.elem)
+		item := heap.Pop(maxHeap).(Item)
+		for i := 0; i < item.freq; i++ {
+			res += string(item.char)
 		}
 	}
 
 	return res
 }
 
-type Elem struct {
-	elem rune
+type Item struct {
+	char rune
 	freq int
 }
 
-type MaxHeap []Elem
+type MaxHeap []Item
 
 func (h MaxHeap) Less(i, j int) bool {
 	return h[i].freq > h[j].freq
@@ -40,7 +40,7 @@ func (h MaxHeap) Len() int {
 }
 
 func (h *MaxHeap) Push(x interface{}) {
-	*h = append(*h, x.(Elem))
+	*h = append(*h, x.(Item))
 }
 
 func (h *MaxHeap) Pop() interface{} {
@@ -52,4 +52,4 @@ func (h *MaxHeap) Pop() interface{} {
 }
 
 // time: O(nLogn)
-// space: O(n)
+// space: O(1) not more than 26 elements
