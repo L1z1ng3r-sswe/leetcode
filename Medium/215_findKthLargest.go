@@ -40,7 +40,3 @@ func findKthLargest(nums []int, k int) int {
 
 // space: O(N)
 // time: O(N)
-
-git add .
-git commit -m "feat: 215_findKthLargest done; space: O(N), time: O(N)"
-git push origin main
