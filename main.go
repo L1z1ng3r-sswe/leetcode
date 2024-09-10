@@ -1,5 +1,0 @@
-package macin
-
-func main() {
-
-}
