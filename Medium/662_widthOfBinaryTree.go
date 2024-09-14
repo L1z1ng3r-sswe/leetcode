@@ -1,39 +1,31 @@
-type item struct {
-	pos  int
+type nodePos struct {
 	node *TreeNode
+	pos  int
 }
 
 func widthOfBinaryTree(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
+	queue := []nodePos{{node: root, pos: 0}}
+	maxWidth := 0
 
-	var maxWidth int
+	for len(queue) > 0 {
+		levelSize := len(queue)
+		firstPos := queue[0].pos
+		lastPos := queue[len(queue)-1].pos
+		maxWidth = max(maxWidth, lastPos-firstPos+1)
 
-	queue := []item{{0, root}}
+		for i := 0; i < levelSize; i++ {
+			currNode := queue[0].node
+			currPos := queue[0].pos
+			queue = queue[1:]
 
-	for len(queue) != 0 {
-		queueLen := len(queue)
-		maxWidth = max(maxWidth, queue[len(queue)-1].pos-queue[0].pos+1)
-
-		for i := 0; i < queueLen; i++ {
-			curr := queue[i]
-
-			leftPos := curr.pos * 2
-			rightPos := curr.pos*2 + 1
-
-			if curr.node.Left != nil {
-				queue = append(queue, item{leftPos, curr.node.Left})
+			if currNode.Left != nil {
+				queue = append(queue, nodePos{node: currNode.Left, pos: 2 * currPos})
 			}
-
-			if curr.node.Right != nil {
-				queue = append(queue, item{rightPos, curr.node.Right})
+			if currNode.Right != nil {
+				queue = append(queue, nodePos{node: currNode.Right, pos: 2*currPos + 1})
 			}
 		}
-
-		queue = queue[queueLen:]
 	}
-
 	return maxWidth
 }
 
@@ -41,10 +33,8 @@ func max(a, b int) int {
 	if a > b {
 		return a
 	}
-
 	return b
 }
 
-// n - total number of nodes
 // time: O(n)
 // space: O(n)
