@@ -21,7 +21,3 @@ func longestWord(words []string) string {
 
 // time: O(nlogn)
 // space: O(n)
-
-git add .
-git commit -m "feat: 720_longestWord done; time: O(nlogn), space: O(n)"
-git push origin main
