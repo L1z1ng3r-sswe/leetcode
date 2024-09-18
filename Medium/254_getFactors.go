@@ -1,28 +1,20 @@
 func getFactors(num int) [][]int {
-	var factors [][]int
+	var res [][]int
 
-	if num <= 1 {
-		return factors
-	}
-
-	var dfs func(currFactors []int, quotient, divisor int)
-	dfs = func(currFactors []int, quotient, divisor int) {
-		if quotient == 1 {
-			factors = append(factors, append([]int(nil), currFactors...))
+	var backtrack func(currFactors []int, num int, divisor int)
+	backtrack = func(currFactors []int, num int, divisor int) {
+		if num == 1 {
+			res = append(res, append([]int(nil), currFactors))
 			return
 		}
 
-		for i := divisor; i <= quotient; i++ {
-			if quotient%i == 0 {
-				dfs(append(currFactors, i), quotient/i, i)
+		for i := divisor; i <= num; i++ {
+			if num%i == 0 {
+				backtrack(append(currFactors, i), num/i, i)
 			}
 		}
 	}
+	backtrack([]int{}, num, 2)
 
-	dfs([]int{}, num, 2)
-
-	return factors
+	return res
 }
-
-// time: O(n)
-// space: stack

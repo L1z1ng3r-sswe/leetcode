@@ -1,6 +1,7 @@
 package main
 
 func main() {
+
 }
 
 // infinity := []int{0}
