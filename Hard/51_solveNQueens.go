@@ -64,5 +64,3 @@ func isValid(board [][]byte, row, col, n int) bool {
 
 // time: O(n * n!)
 // space: O(n! * n^2)
-
-
