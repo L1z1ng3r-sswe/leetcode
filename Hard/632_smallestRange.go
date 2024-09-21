@@ -1,33 +1,32 @@
 func smallestRange(lists [][]int) []int {
+	maxVal := math.MinInt32
+
 	minHeap := &MinHeap{}
-
-	maxVal := &Item{Val: math.MinInt32}
 	for i, list := range lists {
-		item := &Item{Val: list[0], List: i, Idx: 0}
+		heap.Push(minHeap, &Item{List: i, Idx: 0, Val: list[0]})
 
-		heap.Push(minHeap, item)
-		if maxVal.Val < item.Val {
-			maxVal = item
+		if maxVal < list[0] {
+			maxVal = list[0]
 		}
 	}
 
-	var rangeStart, rangeEnd = 0, math.MaxInt32
+	rangeStart, rangeEnd := 0, math.MaxInt32
 
 	for minHeap.Len() > 0 {
 		minVal := heap.Pop(minHeap).(*Item)
 
-		if maxVal.Val-minVal.Val < rangeEnd-rangeStart {
+		if maxVal-minVal.Val < rangeEnd-rangeStart {
 			rangeStart = minVal.Val
-			rangeEnd = maxVal.Val
+			rangeEnd = maxVal
 		}
 
 		if minVal.Idx+1 < len(lists[minVal.List]) {
-			next := lists[minVal.List][minVal.Idx+1]
-			item := &Item{Val: next, List: minVal.List, Idx: minVal.Idx + 1}
-			heap.Push(minHeap, item)
+			nextVal := &Item{List: minVal.List, Idx: minVal.Idx + 1, Val: lists[minVal.List][minVal.Idx+1]}
 
-			if item.Val > maxVal.Val {
-				maxVal = item
+			heap.Push(minHeap, nextVal)
+
+			if nextVal.Val > maxVal {
+				maxVal = nextVal.Val
 			}
 		} else {
 			break
@@ -38,9 +37,9 @@ func smallestRange(lists [][]int) []int {
 }
 
 type Item struct {
-	Val  int
 	List int
 	Idx  int
+	Val  int
 }
 
 type MinHeap []*Item
@@ -62,6 +61,3 @@ func (h *MinHeap) Pop() interface{} {
 	*h = old[:n-1]
 	return last
 }
-
-// time: O(nlogk)
-// space: O(k)
