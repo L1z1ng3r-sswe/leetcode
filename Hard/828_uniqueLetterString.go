@@ -1,5 +1,7 @@
 func uniqueLetterString(s string) int {
-	idx := make([byte][]int) // to track for each charracter in a string its prev1 and prev2 appearence
+	var n = len(s)
+
+	idx := make(map[byte][]int) // to track for each character its prev1 and prev2 appearence
 
 	for i := 0; i < len(s); i++ {
 		char := s[i]
