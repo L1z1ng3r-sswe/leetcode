@@ -31,5 +31,6 @@ func max(a, b int) int {
 }
 
 // n - total number of nodes
+// h - height of the bt
 // time: O(n)
-// space: O(1)
+// space: O(h)	
