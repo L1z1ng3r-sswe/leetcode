@@ -1,85 +1,79 @@
 func sortItems(n int, m int, group []int, beforeItems [][]int) []int {
-	groupId := m
+	groupNum := m
 
-	for i := 0; i < n; i++ {
-		if group[i] == -1 {
-			group[i] = groupId // if m = 2, then there are only 0 and 1 group, so -1 group becomes 2
-			groupId++          // shift to the next group - 3
+	for i, gr := range group {
+		if gr == -1 {
+			group[i] = groupNum
+			groupNum++
 		}
 	}
 
 	itemGraph := make([][]int, n)
-	itemRelations := make([]int, n)
+	itemRel := make([]int, n)
 
-	groupGraph := make([][]int, groupId)
-	groupRelations := make([]int, groupId)
+	groupGraph := make([][]int, groupNum)
+	groupRel := make([]int, groupNum)
 
-	// assemble graphs and relations
-	for i := 0; i < n; i++ {
-		for _, before := range beforeItems[i] {
-			itemGraph[before] = append(itemGraph[before], i)
-			itemRelations[i]++
+	for node, roots := range beforeItems {
+		for _, root := range roots {
+			itemGraph[root] = append(itemGraph[root], node)
+			itemRel[node]++
 
-			if group[before] != group[i] {
-				groupGraph[group[before]] = append(groupGraph[group[before]], group[i])
-				groupRelations[group[i]]++
+			if group[root] != group[node] {
+				groupGraph[group[root]] = append(groupGraph[group[root]], group[node])
+				groupRel[group[node]]++
 			}
 		}
 	}
 
-	groupOrder := topoSort(groupGraph, groupRelations)
-	if groupOrder == nil {
-		return []int{}
+	sortedItems := topoSort(itemGraph, itemRel)
+	if sortedItems == nil {
+		return nil
+	}
+	sortedGroups := topoSort(groupGraph, groupRel)
+	if sortedGroups == nil {
+		return nil
 	}
 
-	itemOrder := topoSort(itemGraph, itemRelations)
-	if itemOrder == nil {
-		return []int{}
-	}
-
-	groupToItems := make(map[int][]int)
-	for _, item := range itemOrder {
-		groupToItems[group[item]] = append(groupToItems[group[item]], item)
+	groupMap := make(map[int][]int, groupNum)
+	for _, item := range sortedItems {
+		groupMap[group[item]] = append(groupMap[group[item]], item)
 	}
 
 	res := make([]int, 0, n)
-
-	for _, grp := range groupOrder {
-		res = append(res, groupToItems[grp]...)
+	for _, gr := range sortedGroups {
+		res = append(res, groupMap[gr]...)
 	}
 
 	return res
 }
 
-func topoSort(graph [][]int, relations []int) []int {
-	n := len(graph)
-
+func topoSort(graph [][]int, rels []int) []int {
 	queue := []int{}
-
-	for i := 0; i < n; i++ {
-		if relations[i] == 0 {
-			queue = append(queue, i)
+	for node, rel := range rels {
+		if rel == 0 {
+			queue = append(queue, node)
 		}
 	}
 
 	var res []int
-
 	for len(queue) != 0 {
 		root := queue[0]
 		queue = queue[1:]
 		res = append(res, root)
 
 		for _, node := range graph[root] {
-			relations[node]--
-			if relations[node] == 0 { // this part checks on cycles
+			rels[node]--
+			if rels[node] == 0 {
 				queue = append(queue, node)
 			}
 		}
 	}
 
-	if len(res) != n {
+	if len(res) != len(graph) {
 		return nil
 	}
+
 	return res
 }
 
