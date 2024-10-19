@@ -87,10 +87,3 @@ func findMostFreq(freqMap map[string]int) []string {
 
 // Input: O(L + K log K)
 // space: O(N + M * L)
-
-git add .
-git commit -m "feat: 642_autocompleteSystem done;  Input: O(L + K log K),  space: O(N + M * L) where K - number of sentences in the node
-L - length of the input
-N - nubmer of characters across all the inputs & constuctors
-M - number of unique sentences"
-git push origin main
