@@ -1,7 +1,3 @@
-package main
-
-func main() {}
-
 type Trie struct {
 	Children map[byte]*Trie
 	Words    []string
@@ -73,14 +69,18 @@ func wordSquares(words []string) [][]string {
 		for _, word := range trie.FindByPref(pref) {
 			squareWords = append(squareWords, word)
 			backtrack(squareWords)
-			squareWords = squareWords[:len(squareWords)-1] // backtrack
+			squareWords = squareWords[:len(squareWords)-1]
 		}
 	}
 
 	for _, word := range words {
 		squareWords := []string{word}
-		backtrack(squareWords)
+		backtrack(squareWords
 	}
 
 	return res
 }
+
+// m - total number of charrecters
+// time: O(m)
+// space: O(m)
